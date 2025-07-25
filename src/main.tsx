@@ -5,8 +5,8 @@ import "./index.css";
 
 import App from "./App";
 import Layout from "./Components/Layout";
-import Hero from "./Components/Hero";
 import ErrorPage from "./Routes/ErrorPage";
+import Landing from "./Routes/Landing";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -14,7 +14,7 @@ createRoot(document.getElementById("root")!).render(
       <App>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Hero />} />
+            <Route index element={<Landing />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>

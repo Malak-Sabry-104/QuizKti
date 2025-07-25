@@ -30,7 +30,7 @@ const Hero = () => {
 
         <div
           className={`relative z-10 rounded-2xl p-8 shadow-xl backdrop-blur-sm ${
-            darkMode ? "bg-white/60" : "bg-white/70"
+            darkMode ? "bg-white/40" : "bg-white/70"
           }`}
         >
           <h1
