@@ -18,7 +18,7 @@ const Footer = () => {
     group-hover:floating ${darkMode ? "bg-white/20" : "bg-white/70"} 
     flex flex-col justify-center items-center py-4 h-[20vh] text-center`}
     >
-      <p className="flex gap-2 justify-center items-center">
+      <p className="flex gap-2 justify-center items-center md:text-md text-sm">
         Made With <FaHeart className="text-[#FF9EB5] w-5 h-5" />
         for tech lovers By Malak Sabry
       </p>

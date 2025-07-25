@@ -228,7 +228,7 @@ const CrushCodeQuiz: React.FC = () => {
       className={`quiz-container ${
         darkMode
           ? "bg-gray-800 dark:shadow-xl dark:shadow-gray-900/30 border border-gray-700/30"
-          : "bg-gradient-to-r from-[var(--pastel-purple)] to-[var(--pastel-yellow)]"
+          : ""
       }`}
     >
       <div className={`progress-bar ${darkMode ? "bg-gray-700/50" : ""}`}>
