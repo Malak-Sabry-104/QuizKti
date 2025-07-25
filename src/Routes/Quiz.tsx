@@ -9,7 +9,7 @@ type Question = {
 
 const questions: Question[] = [
   {
-    question: "What’s your favorite part of building something?",
+    question: "What's your favorite part of building something?",
     choices: [
       "Designing the user interface",
       "Crafting clean, efficient logic",
@@ -22,12 +22,12 @@ const questions: Question[] = [
     choices: [
       "A cozy night styling components with lo-fi beats",
       "Grinding through server logic until sunrise",
-      "Setting up new VSCode extensions “just for fun”",
+      "Setting up new VSCode extensions \"just for fun\"",
       "Watching CS theory videos and journaling ideas",
     ],
   },
   {
-    question: "You’ve joined a hackathon. What’s the first thing you do?",
+    question: "You've joined a hackathon. What's the first thing you do?",
     choices: [
       "Open Figma and brainstorm colors and layout",
       "Spin up an Express server and build endpoints",
@@ -94,7 +94,7 @@ const questions: Question[] = [
     choices: [
       "Design is not decoration.",
       "Works on my machine.",
-      "One more CLI tool can’t hurt.",
+      "One more CLI tool can't hurt.",
       "Simplicity is the soul of efficiency.",
     ],
   },
@@ -121,7 +121,7 @@ const questions: Question[] = [
     choices: [
       "The live UI demos!",
       "How the backend scales",
-      "Watching someone’s terminal setup",
+      "Watching someone's terminal setup",
       "The weird tangents that reveal new ideas",
     ],
   },
@@ -158,7 +158,7 @@ const questions: Question[] = [
       "React logo with pastel sparkles",
       "Backend logic diagram meme",
       "A weird but beautiful Bash command",
-      "“Code. Think. Repeat.”",
+      "\"Code. Think. Repeat.\"",
     ],
   },
   {
@@ -173,10 +173,10 @@ const questions: Question[] = [
   {
     question: "How often do you refactor?",
     choices: [
-      "Constantly — it’s part of the process",
+      "Constantly — it's part of the process",
       "Only when I have time (which I never do)",
       "When the file feels vibe-wrong",
-      "I don’t refactor. I rebuild.",
+      "I don't refactor. I rebuild.",
     ],
   },
   {
@@ -220,6 +220,8 @@ const CrushCodeQuiz: React.FC = () => {
   const showResult = () => {
     const result = computeResult(answers);
     localStorage.setItem("crushcode_result", result);
+    // Store the actual answers array for more detailed analysis
+    localStorage.setItem("crushcode_answers", JSON.stringify(answers));
     navigate("/result");
   };
 
@@ -227,9 +229,14 @@ const CrushCodeQuiz: React.FC = () => {
     <div
       className={`quiz-container ${
         darkMode
-          ? "bg-gray-800 dark:shadow-xl dark:shadow-gray-900/30 border border-gray-700/30"
+          ? "dark:shadow-xl dark:shadow-gray-900/30 border border-gray-700/30"
           : ""
       }`}
+      style={{
+        background: darkMode
+          ? "#1D2837"
+          : "linear-gradient(45deg, #ba8eba 30%, #fdfd66)",
+      }}
     >
       <div className={`progress-bar ${darkMode ? "bg-gray-700/50" : ""}`}>
         <div
@@ -241,9 +248,7 @@ const CrushCodeQuiz: React.FC = () => {
 
       <div className={`card ${darkMode ? " shadow-gray-900/20" : ""}`}>
         <div
-          className={`question ${
-            darkMode ? "text-gray-100" : "text-gray-800/80"
-          }`}
+          className={`question ${darkMode ? "text-gray-100" : "text-gray-500"}`}
         >
           {questions[current].question}
         </div>
@@ -267,11 +272,11 @@ const CrushCodeQuiz: React.FC = () => {
                 background:
                   answers[current] === i
                     ? darkMode
-                      ? "linear-gradient(to right, #d48396, #d2d254)"
+                      ? "linear-gradient(to right, #ba8eba, #8cb9e8)"
                       : "linear-gradient(to right, #ff9eb5, #fdfd66)"
                     : hoveredIndex === i
                     ? darkMode
-                      ? "linear-gradient(to right, #d48396, #d2d254)"
+                      ? "linear-gradient(to right, #ba8eba, #8cb9e8)"
                       : "linear-gradient(to right, #ff9eb5, #fdfd66)"
                     : darkMode
                     ? "#1c1c1c4a"

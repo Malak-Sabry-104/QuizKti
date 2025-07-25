@@ -8,6 +8,7 @@ import Layout from "./Components/Layout";
 import ErrorPage from "./Routes/ErrorPage";
 import Landing from "./Routes/Landing";
 import Quiz from "./Routes/Quiz";
+import Results from "./Routes/Results";
 // dfvvvvffvfvvffdccc
 // cccrfffvffvvvfffrdsff
 createRoot(document.getElementById("root")!).render(
@@ -18,6 +19,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/" element={<Layout />}>
             <Route index element={<Landing />} />
             <Route path="/quiz" element={<Quiz />} />
+            <Route path="/result" element={<Results />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>

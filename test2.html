@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CrushCode Quiz Result</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap');
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #161616d9;
+      color: #fff;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .result-container {
+      background: linear-gradient(to right, #ba8eba, #fdfd66);
+      border-radius: 1rem;
+      max-width: 600px;
+      width: 100%;
+      padding: 2rem 2.5rem;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+      position: relative;
+      color: #444;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .result-title {
+      font-size: 2.4rem;
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+      color: #682f8a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .result-title span.emoji {
+      font-size: 3rem;
+      transform: translateY(3px);
+    }
+
+    .result-description {
+      font-style: italic;
+      margin-bottom: 2rem;
+      color: #333;
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    .tools-list {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .tool-badge {
+      background: #8cb9e8;
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      user-select: none;
+      cursor: default;
+      transition: background-color 0.3s ease;
+    }
+
+    .tool-badge:hover {
+      background-color: #7aa7d6;
+    }
+
+    /* Share / Download section */
+    .share-download {
+      margin-bottom: 2rem;
+    }
+
+    .share-input-wrapper {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .share-input {
+      flex-grow: 1;
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.9rem;
+      color: #444;
+      user-select: all;
+    }
+
+    .btn-copy {
+      padding: 0.5rem 1rem;
+      background: #ff9eb5;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #444;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-copy:hover {
+      background: #f07a91;
+    }
+
+    .btn-download {
+      background: #8cb9e8;
+      border: none;
+      border-radius: 6px;
+      padding: 0.8rem 1.4rem;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    .btn-download:hover {
+      background: #7aa7d6;
+    }
+
+    /* Navigation buttons */
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+    }
+
+    .nav-buttons button {
+      flex: 1;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    .btn-retake {
+      background: transparent;
+      border: 2px solid #ff9eb5;
+      color: #682f8a;
+    }
+
+    .btn-retake:hover {
+      background: #ff9eb5;
+      color: #444;
+    }
+
+    .btn-home {
+      background: #ff9eb5;
+      color: #444;
+    }
+
+    .btn-home:hover {
+      background: #f07a91;
+      color: #222;
+    }
+
+    /* Fade in */
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="result-container fade-in" id="resultCard">
+    <div class="result-title" id="resultTitle"></div>
+    <div class="result-description" id="resultDescription"></div>
+    <div class="tools-list" id="toolsList"></div>
+
+    <div class="share-download">
+      <div class="share-input-wrapper">
+        <input type="text" id="shareLink" class="share-input" readonly />
+        <button class="btn-copy" id="copyBtn">Copy</button>
+      </div>
+      <button class="btn-download" id="downloadBtn">Download Result as Image</button>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-retake" id="retakeBtn">Try Again</button>
+      <button class="btn-home" id="homeBtn">Back to Home</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    // Read saved answers from localStorage
+    const answersJSON = localStorage.getItem('crushcode_answers');
+    let persona = "Frontend Flirt"; // fallback persona
+
+    if (answersJSON) {
+      const answers = JSON.parse(answersJSON);
+      const total = answers.reduce((acc, val) => acc + val, 0);
+      const personas = ["Frontend Flirt", "Backend Brainiac", "Tool Tinkerer", "Code Philosopher"];
+      persona = personas[total % personas.length];
+    }
+
+    const resultData = {
+      "Frontend Flirt": {
+        emoji: "🎨",
+        description: "You shine in UI design and styling. Crafting beautiful interfaces is your passion.",
+        tools: ["React", "Tailwind CSS", "Figma"]
+      },
+      "Backend Brainiac": {
+        emoji: "🧠",
+        description: "You love building robust server logic and APIs. The backend is your playground.",
+        tools: ["Node.js", "Express", "Postman"]
+      },
+      "Tool Tinkerer": {
+        emoji: "🛠️",
+        description: "You enjoy experimenting with dev tools and automation to boost productivity.",
+        tools: ["Zsh", "VSCode", "Notion"]
+      },
+      "Code Philosopher": {
+        emoji: "💭",
+        description: "You think deeply about code quality, architecture, and maintainability.",
+        tools: ["TypeScript", "Clean Code", "Design Patterns"]
+      }
+    };
+
+    const data = resultData[persona] || resultData["Frontend Flirt"];
+
+    // Populate UI
+    document.getElementById('resultTitle').innerHTML = `${persona} <span class="emoji">${data.emoji}</span>`;
+    document.getElementById('resultDescription').textContent = data.description;
+
+    const toolsList = document.getElementById('toolsList');
+    toolsList.innerHTML = ''; // Clear previous content
+    data.tools.forEach(tool => {
+      const badge = document.createElement('div');
+      badge.className = 'tool-badge';
+      badge.textContent = tool;
+      toolsList.appendChild(badge);
+    });
+
+    // Share link
+    const baseUrl = window.location.origin + window.location.pathname;
+    const base64Data = btoa(`result=${persona}`);
+    const shareLink = `${baseUrl}?result=${base64Data}`;
+    const shareInput = document.getElementById('shareLink');
+    shareInput.value = shareLink;
+
+    // Copy link handler
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      shareInput.select();
+      document.execCommand('copy');
+      alert('Link copied to clipboard!');
+    });
+
+    // Download as image
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      html2canvas(document.querySelector('.result-container')).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'crushcode-result.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    });
+
+    // Navigation buttons
+    document.getElementById('retakeBtn').addEventListener('click', () => {
+      window.location.href = 'index.html'; // path to quiz page
+    });
+
+    document.getElementById('homeBtn').addEventListener('click', () => {
+      window.location.href = 'index.html'; // or homepage path
+    });
+  </script>
+</body>
+
+</html>

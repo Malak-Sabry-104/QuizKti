@@ -10,7 +10,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   color: white;
   overflow-x: hidden;
 }
@@ -71,7 +71,6 @@ body {
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  background: linear-gradient(45deg, #ba8eba 30%, #fdfd66);
   border-radius: 1rem;
   box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
   position: relative;
@@ -87,7 +86,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(to right,#ff9eb5 30%,#ba8eba,#8cb9e8);
+  background: linear-gradient(to right, #ff9eb5 30%, #ba8eba, #8cb9e8);
   width: 0%;
   transition: width 0.4s ease-in-out;
 }
@@ -99,7 +98,6 @@ body {
 .question {
   font-size: 1.4rem;
   margin-bottom: 1rem;
-  color: rgba(20, 19, 19, 0.515);
 }
 
 .choices {
