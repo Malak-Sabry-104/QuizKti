@@ -15,7 +15,7 @@ const NavBar = () => {
 
       <button
         onClick={() => setDarkMode(!darkMode)}
-        className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-lg"
+        className="w-10 h-10 rounded-full theme-toggle bg-white flex items-center justify-center shadow-lg"
       >
         {darkMode ? (
           <FaSun className="text-yellow-400 w-5 h-5" />

@@ -9,20 +9,22 @@
   --pastel-yellow: #fdfd66;
 }
 
-/* Base styles */
-@layer base {
-  body {
-    @apply overflow-x-hidden text-white;
-  }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  overflow-x: hidden;
 }
+
+/* navbar styles */
 .theme-toggle {
   transition: all 0.3s ease;
 }
 .theme-toggle:hover {
   transform: rotate(30deg);
+  cursor: pointer;
 }
 
-
+/* lading styles */
 .floating {
   animation: float 3s ease-in-out infinite;
 }
@@ -60,4 +62,95 @@
 .group:hover .feature-card {
   animation: float 2s ease-in-out infinite;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* quiz page styles */
+.quiz-container {
+  max-width: 800px;
+  margin: 5rem auto;
+  padding: 2rem;
+  background: linear-gradient(to right, #ba8eba 30%, #fdfd66);
+  border-radius: 1rem;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+.progress-bar {
+  height: 10px;
+  background: rgba(62, 62, 62, 0.361);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right,#ff9eb5 30%,#ba8eba,#8cb9e8);
+  width: 0%;
+  transition: width 0.4s ease-in-out;
+}
+
+.card {
+  animation: fadeIn 0.4s ease;
+}
+
+.question {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: rgba(20, 19, 19, 0.515);
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.choice {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.choice:hover {
+  color: rgb(68, 68, 68);
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.quiz-container button {
+  padding: 0.8rem 1.4rem;
+  background: #ff9eb5;
+  border: none;
+  color: rgb(68, 68, 68);
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

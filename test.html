@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrushCode Quiz</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      background: #161616d9;
+    }
+
+    .quiz-container {
+      max-width: 600px;
+      margin: 5rem auto;
+      padding: 2rem;
+      background: linear-gradient(to right, #ba8eba, #fdfd66);
+      border-radius: 1rem;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: #333;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right,#ff9eb5 30%,#ba8eba,#8cb9e8);
+      width: 0%;
+      transition: width 0.4s ease-in-out;
+    }
+
+    .card {
+      animation: fadeIn 0.4s ease;
+
+
+
+    }
+
+    .question {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: rgba(20, 19, 19, 0.515);
+    }
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .choice {
+      background: #1c1c1c4a;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      /* for Safari */
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .choice:hover {
+      background: linear-gradient(to right, #ff9eb5, #fdfd66);
+      color: rgb(68, 68, 68);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+
+    button {
+      padding: 0.8rem 1.4rem;
+      background: #ff9eb5;
+      border: none;
+      color: rgb(68, 68, 68);
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-container">
+    <div class="progress-bar">
+      <div id="progress" class="progress-fill"></div>
+    </div>
+
+    <div id="question-card" class="card">
+      <!-- Dynamic content injected by JS -->
+    </div>
+
+    <div class="nav-buttons">
+      <button id="backBtn" onclick="prevQuestion()">Back</button>
+      <button id="nextBtn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+
+  <script>
+
+
+    const questions = [
+      {
+        question: "What’s your favorite part of building something?",
+        choices: [
+          "Designing the user interface",
+          "Crafting clean, efficient logic",
+          "Automating boring stuff",
+          "Thinking deeply about systems and architecture"
+        ]
+      },
+      {
+        question: "Pick your ideal weekend coding vibe:",
+        choices: [
+          "A cozy night styling components with lo-fi beats",
+          "Grinding through server logic until sunrise",
+          "Setting up new VSCode extensions “just for fun”",
+          "Watching CS theory videos and journaling ideas"
+        ]
+      },
+      {
+        question: "You’ve joined a hackathon. What’s the first thing you do?",
+        choices: [
+          "Open Figma and brainstorm colors and layout",
+          "Spin up an Express server and build endpoints",
+          "Configure the project structure and folder names",
+          "Debate architecture and data flow with your team"
+        ]
+      },
+      {
+        question: "Which dev tool sparks the most joy?",
+        choices: [
+          "Tailwind CSS",
+          "Postman",
+          "Zsh with custom aliases",
+          "Notion + Markdown"
+        ]
+      },
+      {
+        question: "What's your relationship with bugs?",
+        choices: [
+          "CSS bug? More like creative challenge ",
+          "Logic bug? I debug like Sherlock ",
+          "I install a new tool to help",
+          "I sit back and contemplate why bugs exist"
+        ]
+      },
+      {
+        question: "How do you name your variables?",
+        choices: [
+          "colorPop, btnGlow, heroShade",
+          "user_id, responseData, authToken",
+          "x, y, temp, until it works",
+          "theEssenceOfTruth"
+        ]
+      },
+      {
+        question: "Your favorite Git command is:",
+        choices: [
+          "git checkout -b feature/ui-update",
+          "git merge --no-ff",
+          "git stash and pray",
+          "git reflog (because I broke something again)"
+        ]
+      },
+      {
+        question: "What kind of developer do you admire most?",
+        choices: [
+          "Pixel-perfect designers with CSS wizardry",
+          "Engineers who can write APIs in their sleep",
+          "Devs who try every new tool on day one",
+          "Quiet geniuses who write legendary comments"
+        ]
+      },
+      {
+        question: "Your side projects folder looks like:",
+        choices: [
+          "A colorful collection of micro-frontends",
+          "Full-stack CRUD apps and auth flows",
+          "12 half-finished setups with vite, bun, turbo",
+          "A philosophical journal disguised as .md files"
+        ]
+      },
+      {
+        question: "Choose your dev motto:",
+        choices: [
+          "Design is not decoration.",
+          "Works on my machine.",
+          "One more CLI tool can’t hurt.",
+          "Simplicity is the soul of efficiency."
+        ]
+      },
+      {
+        question: "How do you start a new project?",
+        choices: [
+          "Open CodeSandbox and start designing",
+          "Run npx create-next-app and build the API first",
+          "Set up a full custom dev environment",
+          "Create a README before touching code"
+        ]
+      },
+      {
+        question: "When you hit a wall in your code, you:",
+        choices: [
+          "Take a walk and visualize the UI flow",
+          "Debug step by step until the stack trace makes sense",
+          "Google until you find a 3-month-old GitHub issue",
+          "Write a blog post to explain it to yourself"
+        ]
+      },
+      {
+        question: "Your favorite part of a tech talk is:",
+        choices: [
+          "The live UI demos!",
+          "How the backend scales",
+          "Watching someone’s terminal setup",
+          "The weird tangents that reveal new ideas"
+        ]
+      },
+      {
+        question: "Your coding playlist is:",
+        choices: [
+          "Chillhop + Retrowave",
+          "High BPM focus mode (Drum & Bass, EDM)",
+          "Absolute silence + mechanical keyboard ASMR",
+          "Long podcast episodes you barely remember"
+        ]
+      },
+      {
+        question: "Which imaginary conference talk would you give?",
+        choices: [
+          "10 Tailwind Tricks to Make You Look Good",
+          "Why REST is underrated again",
+          "Terminal Tools That Feel Like Magic",
+          "Zen and the Art of Code Maintenance"
+        ]
+      },
+      {
+        question: "What do you secretly judge other devs for?",
+        choices: [
+          "Misaligned buttons",
+          "Fetching data in useEffect without cleanup",
+          "Not using keyboard shortcuts",
+          "Not knowing the difference between == and ==="
+        ]
+      },
+      {
+        question: "Pick a sticker for your laptop:",
+        choices: [
+          " React logo with pastel sparkles",
+          " Backend logic diagram meme",
+          " A weird but beautiful Bash command",
+          " “Code. Think. Repeat.”"
+        ]
+      },
+      {
+        question: "How do you treat comments in your code?",
+        choices: [
+          "Beautiful, aligned, and full of puns",
+          "Helpful when needed, never too much",
+          "I comment out lines instead of deleting",
+          "Philosophical one-liners like \"// this broke my soul\""
+        ]
+      },
+      {
+        question: "How often do you refactor?",
+        choices: [
+          "Constantly — it’s part of the process",
+          "Only when I have time (which I never do)",
+          "When the file feels vibe-wrong",
+          "I don’t refactor. I rebuild."
+        ]
+      },
+      {
+        question: "Choose a debugging snack:",
+        choices: [
+          "Matcha + mochi",
+          "Black coffee, no distractions",
+          "Cold pizza from last night",
+          "Air — I forget to eat when deep in flow"
+        ]
+      }
+    ];
+
+    let current = 0;
+    const answers = [];
+
+    const questionCard = document.getElementById('question-card');
+    const progressFill = document.getElementById('progress');
+    const backBtn = document.getElementById('backBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function renderQuestion() {
+      const q = questions[current];
+      progressFill.style.width = `${((current) / questions.length) * 100}%`;
+
+      questionCard.innerHTML = `
+        <div class="question ">${q.question}</div>
+        <div class="choices">
+          ${q.choices.map((choice, i) => `
+            <div class="choice " onclick="selectAnswer(${i})">${choice}</div>
+          `).join('')}
+        </div>
+      `;
+
+      backBtn.disabled = current === 0;
+      nextBtn.textContent = current === questions.length - 1 ? "View Result" : "Next";
+      nextBtn.disabled = answers[current] === undefined;
+    }
+
+    function selectAnswer(choiceIndex) {
+      answers[current] = choiceIndex;
+      nextBtn.disabled = false;
+    }
+
+    function nextQuestion() {
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function prevQuestion() {
+      if (current > 0) {
+        current--;
+        renderQuestion();
+      }
+    }
+
+    function showResult() {
+      const result = computeResult(answers);
+      localStorage.setItem("crushcode_result", result);
+      window.location.href = "/result"; // Simulated redirect
+    }
+
+    function computeResult(ans) {
+      const total = ans.reduce((acc, val) => acc + val, 0);
+      const persona = ["Frontend Flirt", "Backend Brainiac", "Tool Tinkerer", "Code Philosopher"];
+      return persona[total % persona.length];
+    }
+
+    renderQuestion();
+  </script>
+</body>
+
+</html>
