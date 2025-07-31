@@ -7,7 +7,7 @@ type Question = {
   choices: string[];
 };
 
-const questions: Question[] = [
+const questions: Question[] = [ 
   {
     question: "What's your favorite part of building something?",
     choices: [
@@ -190,7 +190,7 @@ const questions: Question[] = [
   },
 ];
 
-const CrushCodeQuiz: React.FC = () => {
+const  Quiz: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const [current, setCurrent] = useState(0);
@@ -319,4 +319,4 @@ const CrushCodeQuiz: React.FC = () => {
   );
 };
 
-export default CrushCodeQuiz;
+export default  Quiz;

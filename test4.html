@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create Quiz</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fdf6f0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem 2rem;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      color: #ff9eb5;
+      margin-bottom: 1rem;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed #ffcdd2;
+    }
+
+    label {
+      display: block;
+      margin: 0.5rem 0 0.2rem;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: #fff7f9;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      background: #ffb5c2;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 12px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background: #f48fb1;
+    }
+
+    .question-box {
+      margin-bottom: 1rem;
+      background: #fff0f4;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+
+    .preview {
+      background: #e8f7ff;
+      padding: 1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Create Your Quiz ✨</h2>
+
+    <!-- Metadata -->
+    <section>
+      <h3>1. Quiz Metadata</h3>
+      <label for="title">Title</label>
+      <input type="text" id="quizTitle" placeholder="e.g. What's your tech spirit?" />
+
+      <label for="description">Description</label>
+      <textarea id="quizDescription" rows="3" placeholder="Brief intro about your quiz..."></textarea>
+    </section>
+
+    <!-- Questions -->
+    <section>
+      <h3>2. Question Builder</h3>
+      <div class="question-box">
+        <label>Question</label>
+        <input type="text" id="questionInput" placeholder="Type your question here..." />
+
+        <label>Option A (Persona)</label>
+        <input type="text" id="optionA" placeholder="e.g. Design Lover - 🎨" />
+
+        <label>Option B (Persona)</label>
+        <input type="text" id="optionB" placeholder="e.g. Code Master - 💻" />
+
+        <button onclick="addQuestion()">➕ Add Question</button>
+      </div>
+    </section>
+
+    <!-- Personas -->
+    <section>
+      <h3>3. Persona Mapping</h3>
+      <label>Persona A</label>
+      <input type="text" id="personaA" placeholder="e.g. Design Lover | Figma | 🎨" />
+
+      <label>Persona B</label>
+      <input type="text" id="personaB" placeholder="e.g. Code Master | VSCode | 💻" />
+    </section>
+
+    <!-- Preview & Save -->
+    <section>
+      <h3>4. Preview & Save</h3>
+      <button onclick="saveQuiz()">💾 Save to LocalStorage</button>
+      <button onclick="exportJSON()">📤 Export JSON</button>
+
+      <h4>Live Preview</h4>
+      <div class="preview" id="previewBox">Waiting for data...</div>
+    </section>
+  </div>
+
+  <script>
+    const quizData = {
+      title: '',
+      description: '',
+      questions: [],
+      personas: []
+    };
+
+    function addQuestion() {
+      const question = document.getElementById("questionInput").value.trim();
+      const a = document.getElementById("optionA").value.trim();
+      const b = document.getElementById("optionB").value.trim();
+
+      if (!question || !a || !b) return alert("Please fill all question fields.");
+
+      quizData.questions.push({
+        question,
+        options: [a, b]
+      });
+
+      document.getElementById("questionInput").value = '';
+      document.getElementById("optionA").value = '';
+      document.getElementById("optionB").value = '';
+      updatePreview();
+    }
+
+    function saveQuiz() {
+      quizData.title = document.getElementById("quizTitle").value.trim();
+      quizData.description = document.getElementById("quizDescription").value.trim();
+      quizData.personas = [
+        document.getElementById("personaA").value.trim(),
+        document.getElementById("personaB").value.trim()
+      ];
+
+      if (!quizData.title || !quizData.description) {
+        alert("Please complete title and description.");
+        return;
+      }
+
+      localStorage.setItem("myQuiz", JSON.stringify(quizData));
+      alert("✅ Quiz saved to localStorage!");
+      updatePreview();
+    }
+
+    function exportJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(quizData, null, 2));
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href", dataStr);
+      downloadAnchorNode.setAttribute("download", "my_quiz.json");
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    }
+
+    function updatePreview() {
+      document.getElementById("previewBox").textContent = JSON.stringify(quizData, null, 2);
+    }
+  </script>
+</body>
+</html>

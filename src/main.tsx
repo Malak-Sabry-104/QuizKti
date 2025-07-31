@@ -9,6 +9,7 @@ import ErrorPage from "./Routes/ErrorPage";
 import Landing from "./Routes/Landing";
 import Quiz from "./Routes/Quiz";
 import Results from "./Routes/Results";
+import CreateModal from "./Routes/CreateModal";
 // dfvvvvffvfvvffdccc
 // cccrfffvffvvvfffrdsff
 createRoot(document.getElementById("root")!).render(
@@ -21,6 +22,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/result" element={<Results />} />
             <Route path="*" element={<ErrorPage />} />
+            <Route path="/create" element={<CreateModal />} />
           </Route>
         </Routes>
       </App>

@@ -6,9 +6,16 @@ type AppProps = {
 };
 
 const App = ({ children }: AppProps) => {
-  const [darkMode, setDarkMode] = useState(false);
+  // Initialize darkMode state from localStorage or default to false
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem("darkMode");
+    return savedMode ? JSON.parse(savedMode) : false;
+  });
 
+  // Update localStorage when darkMode changes
   useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+    
     const root = document.documentElement;
     if (darkMode) {
       root.classList.add("dark");
