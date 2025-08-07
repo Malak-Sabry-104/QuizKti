@@ -1,20 +1,20 @@
 import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DarkModeContext } from "./DarkModeContext";
-import { FaArrowRight, FaPlus, FaAngleDown } from "react-icons/fa";
+import { FaArrowRight, FaPlus, FaAngleDown, FaTachometerAlt } from "react-icons/fa";
 import CreateModal from "../Routes/CreateModal";
 
 const Hero = () => {
   const context = useContext(DarkModeContext);
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const navigate = useNavigate();
 
-  // ref للمودال عشان نتحكم بالscroll
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.body.style.overflowY = showCreateForm ? "hidden" : "auto";
 
     if (showCreateForm && modalRef.current) {
-      // اسكرول لنهاية المحتوى لما يفتح المودال
       modalRef.current.scrollTop = modalRef.current.scrollHeight;
     }
   }, [showCreateForm]);
@@ -38,9 +38,9 @@ const Hero = () => {
             className="relative w-full max-w-lg mb-3
              bg-white/20 rounded-xl shadow-lg p-6 max-h-[220vh] "
                style={{
-        background: darkMode ? "#1D2837" : "linear-gradient(45deg, #ba8eba 30%, #fdfd66)",
+        background: darkMode ? "#1D2837" : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         borderRadius: "0.75rem",
-        boxShadow: darkMode ? "0 4px 12px rgba(0, 0, 0, 0.15)" : "",
+        boxShadow: darkMode ? "0 4px 12px rgba(0, 0, 0, 0.15)" : "0 20px 40px rgba(102, 126, 234, 0.3)",
       }}
           >
             <button
@@ -56,7 +56,6 @@ const Hero = () => {
         </div>
       )}
 
-      {/* Hero Section */}
       <section className="h-[90vh] px-4 py-12 md:py-24 flex flex-col items-center text-center">
         <div className="relative mb-8">
           <div className="absolute -top-6 md:left-6 left-4 w-16 h-16 rounded-full bg-[#fdfd66] opacity-70 floating"></div>
@@ -64,38 +63,52 @@ const Hero = () => {
 
           <div
             className={`relative z-10 rounded-2xl p-8 shadow-xl backdrop-blur-sm ${
-              darkMode ? "bg-white/40" : "bg-white/70"
+              darkMode ? "bg-white/40" : "bg-white/90"
             }`}
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#ff9eb5] to-[#8cb9e8]">
               QuizKit
             </h1>
-            <p className="text-xl md:text-2xl text-gray-700 mb-6">
-              Discover your tech love language
+            <p className={`text-xl md:text-2xl mb-6 ${
+              darkMode ? "text-gray-700" : "text-gray-600"
+            }`}>
+              Create, take, and manage your own quizzes
             </p>
           </div>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-6 mt-8">
-          <a
-            href="/quiz"
-            className="px-8 py-3 bg-white rounded-full text-[#ff9eb5] font-bold shadow-lg hover:bg-[#ff9eb5] hover:text-white transition-all duration-300 flex items-center justify-center"
+          <button
+            onClick={() => navigate("/dashboard")}
+            className={`px-8 py-3 rounded-full font-bold shadow-lg transition-all duration-300 flex items-center justify-center ${
+              darkMode
+                ? "bg-white text-[#ff9eb5] hover:bg-[#ff9eb5] hover:text-white"
+                : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            }`}
           >
-            <span>Start Quiz</span>
-            <FaArrowRight className="ml-2" />
-          </a>
+            <FaTachometerAlt className="mr-2" />
+            <span>Dashboard</span>
+          </button>
 
           <button
             onClick={() => setShowCreateForm(true)}
-            className="px-4 py-3 bg-white rounded-full text-[#8cb9e8] font-bold shadow-lg hover:bg-[#8cb9e8] hover:text-white transition-all duration-300 flex items-center justify-center"
+            className={`px-4 py-3 rounded-full font-bold shadow-lg transition-all duration-300 flex items-center justify-center ${
+              darkMode
+                ? "bg-white text-[#8cb9e8] hover:bg-[#8cb9e8] hover:text-white"
+                : "bg-white text-blue-600 hover:bg-blue-50 border-2 border-blue-600 hover:border-blue-700 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            }`}
           >
             <span>Create Your Own</span>
             <FaPlus className="ml-2" />
           </button>
         </div>
 
-        <div className="mt-[20px] w-13 h-13 rounded-full bg-white flex items-center justify-center shadow-lg floating floating-delay-2">
-          <FaAngleDown className="text-[#ff9eb5] text-2xl" />
+        <div className={`mt-[20px] w-13 h-13 rounded-full flex items-center justify-center shadow-lg floating floating-delay-2 ${
+          darkMode ? "bg-white" : "bg-white/90"
+        }`}>
+          <FaAngleDown className={`text-2xl ${
+            darkMode ? "text-[#ff9eb5]" : "text-blue-600"
+          }`} />
         </div>
       </section>
     </>
