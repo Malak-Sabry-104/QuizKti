@@ -6,13 +6,11 @@ type AppProps = {
 };
 
 const App = ({ children }: AppProps) => {
-  // Initialize darkMode state from localStorage or default to false
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem("darkMode");
     return savedMode ? JSON.parse(savedMode) : false;
   });
 
-  // Update localStorage when darkMode changes
   useEffect(() => {
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
     
@@ -30,7 +28,7 @@ const App = ({ children }: AppProps) => {
         className={`min-h-screen transition-colors duration-500 ${
           darkMode
             ? "bg-gray-900 text-white"
-            : "bg-gradient-to-br from-[#ff9eb5] to-[#8cb9e8] text-gray-900"
+            : "bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 text-gray-900"
         }`}
       >
         {children}
