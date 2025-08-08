@@ -65,7 +65,9 @@ const Highlights = () => {
     const { darkMode } = context;
   return (
     <section className="container mx-auto px-4 py-12 md:py-24">
-      <h2 className="text-3xl font-bold text-center mb-12 text-white">
+      <h2 className={`text-3xl font-bold text-center mb-12 ${
+        darkMode ? "text-white" : "text-gray-800"
+      }`}>
         Why You'll Love QuizKit
       </h2>
 
@@ -90,7 +92,9 @@ const Highlights = () => {
               >
                 {feature.title}
               </h3>
-              <p className="text-gray-700 text-center">{feature.description}</p>
+              <p className={`text-center ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}>{feature.description}</p>
             </div>
           </div>
         ))}
