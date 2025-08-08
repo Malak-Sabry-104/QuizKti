@@ -60,6 +60,7 @@ const Results: React.FC = () => {
   }, [result]);
 
   const copyToClipboard = () => {
+    alert("It will only work on your device :)")
     if (shareLinkRef.current) {
       shareLinkRef.current.select();
       document.execCommand("copy");
@@ -68,6 +69,7 @@ const Results: React.FC = () => {
   };
 
   const downloadAsImage = () => {
+    alert("Coming Soon")
     if (resultCardRef.current) {
       html2canvas(resultCardRef.current).then((canvas) => {
         const link = document.createElement("a");
